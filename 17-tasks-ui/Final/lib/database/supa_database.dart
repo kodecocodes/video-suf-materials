@@ -50,8 +50,13 @@ class SupaDatabaseRepository extends ChangeNotifier {
   }
 
   Future<Task?> addTask(Task task) async {
+    final newTask = Task (
+      name: task.name,
+      done: false,
+      doLater: false
+    );
     final data = await addDataToTable(
-        taskTable, taskToDatabaseJson(task, client.auth.currentUser!.id));
+        taskTable, taskToDatabaseJson(newTask, client.auth.currentUser!.id));
     if (data != null && data.isNotEmpty) {
       notifyListeners();
       return Task.fromJson(data[0]);
